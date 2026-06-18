@@ -13,11 +13,14 @@ const createMail = async (req, res) => {
       tone,
       keyPoints,
     } = req.body;
+
     const userId = req.user.id;
 
     console.log("Creating mail for user:", userId);
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -51,12 +54,17 @@ const createMail = async (req, res) => {
       },
     });
 
-    res.status(201).json({ message: "Mail generated successfully", mail });
+    return res.status(201).json({
+      message: "Mail generated successfully",
+      mail,
+    });
   } catch (error) {
     console.error("CREATE MAIL ERROR:", error.message);
-    res
-      .status(500)
-      .json({ message: "Failed to generate mail", error: error.message });
+
+    return res.status(500).json({
+      message: "Failed to generate mail",
+      error: error.message,
+    });
   }
 };
 
@@ -66,34 +74,72 @@ const getMails = async (req, res) => {
       where: { userId: req.user.id },
       orderBy: { createdAt: "desc" },
     });
-    res.json(mails);
+
+    return res.json(mails);
   } catch (error) {
     console.error("GET MAILS ERROR:", error.message);
-    res.status(500).json({ message: "Server error" });
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
 const getMail = async (req, res) => {
   try {
     const mail = await prisma.mail.findFirst({
-      where: { id: req.params.id, userId: req.user.id },
+      where: {
+        id: req.params.id,
+        userId: req.user.id,
+      },
     });
-    if (!mail) return res.status(404).json({ message: "Mail not found" });
-    res.json(mail);
+
+    if (!mail) {
+      return res.status(404).json({
+        message: "Mail not found",
+      });
+    }
+
+    return res.json(mail);
   } catch (error) {
     console.error("GET MAIL ERROR:", error.message);
-    res.status(500).json({ message: "Server error" });
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
 const deleteMail = async (req, res) => {
   try {
-    await prisma.mail.delete({ where: { id: req.params.id } });
-    res.json({ message: "Mail deleted" });
+    const result = await prisma.mail.deleteMany({
+      where: {
+        id: req.params.id,
+        userId: req.user.id,
+      },
+    });
+
+    if (result.count === 0) {
+      return res.status(404).json({
+        message: "Mail not found or you do not have permission to delete it",
+      });
+    }
+
+    return res.json({
+      message: "Mail deleted successfully",
+    });
   } catch (error) {
     console.error("DELETE MAIL ERROR:", error.message);
-    res.status(500).json({ message: "Server error" });
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
-module.exports = { createMail, getMails, getMail, deleteMail };
+module.exports = {
+  createMail,
+  getMails,
+  getMail,
+  deleteMail,
+};
