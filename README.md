@@ -423,6 +423,6 @@ Ready for Deployment: Yes
 
 ## 👤 Author
 
-**Rakesh Gowda B P**
+**Chandan K**
 
 Full Stack Developer | Java | React | Node.js | Spring Boot | MySQL | PostgreSQL
