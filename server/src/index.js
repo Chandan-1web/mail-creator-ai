@@ -7,9 +7,24 @@ const mailRoutes = require("./routes/mail.routes");
 
 const app = express();
 
+const isAllowedDevelopmentOrigin = (origin) => {
+  if (env.nodeEnv !== "development") {
+    return false;
+  }
+
+  return (
+    origin?.startsWith("http://localhost:") ||
+    origin?.startsWith("http://127.0.0.1:")
+  );
+};
+
 const corsOptions = {
   origin(origin, callback) {
-    if (!origin || env.clientUrls.includes(origin)) {
+    if (
+      !origin ||
+      env.clientUrls.includes(origin) ||
+      isAllowedDevelopmentOrigin(origin)
+    ) {
       callback(null, true);
       return;
     }
