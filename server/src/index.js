@@ -79,11 +79,15 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(env.port, () => {
-  console.log("=================================");
-  console.log("Mail Creator API started");
-  console.log(`Environment: ${env.nodeEnv}`);
-  console.log(`Port: ${env.port}`);
-  console.log(`Health: http://localhost:${env.port}/api/health`);
-  console.log("=================================");
-});
+if (process.env.VERCEL !== "1") {
+  app.listen(env.port, () => {
+    console.log("=================================");
+    console.log("Mail Creator API started");
+    console.log(`Environment: ${env.nodeEnv}`);
+    console.log(`Port: ${env.port}`);
+    console.log(`Health: http://localhost:${env.port}/api/health`);
+    console.log("=================================");
+  });
+}
+
+module.exports = app;
