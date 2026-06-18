@@ -1,7 +1,5 @@
-const { PrismaClient } = require("@prisma/client");
+const { prisma } = require("../config/prisma");
 const { generateMail } = require("../services/gemini.service");
-
-const prisma = new PrismaClient();
 
 const createMail = async (req, res) => {
   try {
@@ -16,17 +14,15 @@ const createMail = async (req, res) => {
 
     const userId = req.user.id;
 
-    console.log("Creating mail for user:", userId);
-
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
-
-    console.log("User found:", user.name);
 
     const generatedBody = await generateMail({
       senderName: user.name,
@@ -38,8 +34,6 @@ const createMail = async (req, res) => {
       keyPoints,
       tone,
     });
-
-    console.log("Mail generated, length:", generatedBody.length);
 
     const mail = await prisma.mail.create({
       data: {
