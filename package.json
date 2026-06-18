@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-  "install:all": "npm install --prefix client && npm install --prefix server",
-  "build": "npm run build --prefix client",
-  "vercel-build": "npm install --prefix client && npm install --prefix server && npx prisma generate --schema=server/prisma/schema.prisma && npm run build --prefix client"
-}
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "build": "npm run build --prefix client",
+    "vercel-build": "npm install --prefix client && npm install --prefix server && npm run db:generate --prefix server && npm run build --prefix client"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
