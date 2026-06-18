@@ -1,0 +1,163 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import api from "../lib/axios";
+import useAuthStore from "../store/authStore";
+
+export default function Register() {
+  const navigate = useNavigate();
+  const { setAuth } = useAuthStore();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    orgName: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const res = await api.post("/auth/register", formData);
+      setAuth(res.data.user, res.data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900">
+      {/* Left Panel */}
+      <div className="hidden lg:flex w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-cyan-600/20"></div>
+        <div className="absolute top-20 right-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl"></div>
+
+        <div className="relative z-10 text-center text-white">
+          <div className="text-7xl mb-6 animate-bounce">🚀</div>
+          <h1 className="text-5xl font-bold mb-4">Get Started Free</h1>
+          <p className="text-emerald-200 text-lg max-w-sm mb-8">
+            Join thousands generating professional mails
+          </p>
+
+          <div className="space-y-2 text-left">
+            {[
+              "✓ Generate in seconds",
+              "✓ Professional always",
+              "✓ 9+ Templates",
+              "✓ Download PDF",
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 text-emerald-200 text-sm bg-white/5 rounded-lg px-4 py-2 border border-white/10 hover:border-emerald-500/30 hover:bg-white/10 transition"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Right Panel */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="text-5xl mb-3 lg:hidden">✉️</div>
+            <h2 className="text-4xl font-bold text-white">Create Account</h2>
+            <p className="text-gray-400 mt-2">Start creating amazing mails</p>
+          </div>
+
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl mb-6 text-sm flex items-center gap-2 backdrop-blur">
+              <span>⚠️</span> {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="Your Name"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                required
+                placeholder="your@email.com"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Organization
+              </label>
+              <input
+                type="text"
+                placeholder="Your Company"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur"
+                value={formData.orgName}
+                onChange={(e) =>
+                  setFormData({ ...formData, orgName: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                required
+                placeholder="••••••••"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-emerald-600 to-cyan-600 text-white py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-cyan-700 transition disabled:opacity-50 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 duration-300"
+            >
+              {loading ? "⏳ Creating..." : "🎉 Create Account"}
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-400 mt-6">
+            Already have account?{" "}
+            <Link
+              to="/login"
+              className="text-emerald-400 font-semibold hover:text-emerald-300"
+            >
+              Sign In
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
