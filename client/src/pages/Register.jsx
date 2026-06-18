@@ -66,53 +66,65 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900">
-      <div className="hidden lg:flex w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-cyan-600/20"></div>
-        <div className="absolute top-20 right-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen flex bg-slate-50">
+      <div className="hidden lg:flex w-1/2 flex-col justify-center items-center p-12 relative overflow-hidden bg-gradient-to-br from-emerald-950 via-teal-900 to-cyan-950">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-cyan-500/20" />
+        <div className="absolute top-24 right-20 w-80 h-80 bg-emerald-400/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-16 left-16 w-96 h-96 bg-cyan-400/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 text-center text-white">
-          <div className="text-7xl mb-6 animate-bounce">🚀</div>
-          <h1 className="text-5xl font-bold mb-4">Get Started Free</h1>
-          <p className="text-emerald-200 text-lg max-w-sm mb-8">
-            Join thousands generating professional mails
+        <div className="relative z-10 max-w-md text-white">
+          <div className="text-7xl mb-8 text-center animate-bounce">🚀</div>
+
+          <h1 className="text-5xl font-extrabold mb-5 text-center">
+            Get Started Free
+          </h1>
+
+          <p className="text-emerald-100 text-lg text-center mb-10 leading-relaxed">
+            Join thousands generating clean, professional, AI-powered official
+            mails in seconds.
           </p>
 
-          <div className="space-y-2 text-left">
+          <div className="space-y-3">
             {[
-              "✓ Generate in seconds",
-              "✓ Professional always",
-              "✓ 9+ Templates",
-              "✓ Download PDF",
+              "Generate professional mails in seconds",
+              "Use real-world industry templates",
+              "Download polished PDF copies",
+              "Create mails with AI assistance",
             ].map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-3 text-emerald-200 text-sm bg-white/5 rounded-lg px-4 py-2 border border-white/10 hover:border-emerald-500/30 hover:bg-white/10 transition"
+                className="flex items-center gap-3 text-emerald-50 text-sm bg-white/10 rounded-xl px-4 py-3 border border-white/15 backdrop-blur hover:bg-white/15 transition"
               >
-                {item}
+                <span className="text-emerald-300">✓</span>
+                <span>{item}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 bg-white">
         <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="text-5xl mb-3 lg:hidden">✉️</div>
-            <h2 className="text-4xl font-bold text-white">Create Account</h2>
-            <p className="text-gray-400 mt-2">Start creating amazing mails</p>
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-3xl shadow-lg shadow-emerald-500/20">
+              ✉️
+            </div>
+
+            <h2 className="text-4xl font-extrabold text-slate-950">
+              Create Account
+            </h2>
+
+            <p className="text-slate-500 mt-2">
+              Start creating professional mails with AI
+            </p>
           </div>
 
           {errors.length > 0 && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-300 p-4 rounded-xl mb-6 text-sm backdrop-blur">
+            <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6 text-sm">
               <div className="flex items-start gap-2">
                 <span>⚠️</span>
                 <div>
-                  <p className="font-semibold text-red-200 mb-1">
-                    Please fix the following:
-                  </p>
+                  <p className="font-semibold mb-1">Please fix this:</p>
                   <ul className="space-y-1 list-disc list-inside">
                     {errors.map((error) => (
                       <li key={error}>{error}</li>
@@ -125,7 +137,7 @@ export default function Register() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-slate-700 mb-2">
                 Full Name
               </label>
               <input
@@ -133,14 +145,14 @@ export default function Register() {
                 required
                 disabled={loading}
                 placeholder="Your Name"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 value={formData.name}
                 onChange={(e) => updateField("name", e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-slate-700 mb-2">
                 Email
               </label>
               <input
@@ -148,28 +160,28 @@ export default function Register() {
                 required
                 disabled={loading}
                 placeholder="your@email.com"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 value={formData.email}
                 onChange={(e) => updateField("email", e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-slate-700 mb-2">
                 Organization
               </label>
               <input
                 type="text"
                 disabled={loading}
-                placeholder="Your Company"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur disabled:opacity-60 disabled:cursor-not-allowed"
+                placeholder="Your Company / College"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 value={formData.orgName}
                 onChange={(e) => updateField("orgName", e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label className="block text-sm font-bold text-slate-700 mb-2">
                 Password
               </label>
               <input
@@ -177,7 +189,7 @@ export default function Register() {
                 required
                 disabled={loading}
                 placeholder="Minimum 6 characters"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition backdrop-blur disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 value={formData.password}
                 onChange={(e) => updateField("password", e.target.value)}
               />
@@ -186,17 +198,17 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-emerald-600 to-cyan-600 text-white py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-cyan-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 duration-300"
+              className="w-full bg-gradient-to-r from-emerald-600 to-cyan-600 text-white py-3.5 rounded-xl font-bold hover:from-emerald-700 hover:to-cyan-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30"
             >
-              {loading ? "⏳ Creating..." : "🎉 Create Account"}
+              {loading ? "⏳ Creating Account..." : "🎉 Create Account"}
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-400 mt-6">
+          <p className="text-center text-sm text-slate-500 mt-6">
             Already have account?{" "}
             <Link
               to="/login"
-              className="text-emerald-400 font-semibold hover:text-emerald-300"
+              className="text-emerald-600 font-bold hover:text-emerald-700"
             >
               Sign In
             </Link>
